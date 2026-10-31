@@ -1,11 +1,11 @@
-const CACHE = 'union-vault-v371';
+const CACHE = 'union-vault-v373';
 const SHELL = [
-  '/', '/index.html', '/app.html',
+  '/', '/index.html',
   '/css/fonts.css', '/css/app.css', '/css/landing.css',
   '/js/wallpaper.js', '/js/state.js', '/js/utils.js', '/js/navigation.js',
   '/js/dashboard.js', '/js/details.js', '/js/guests.js', '/js/timeline.js',
   '/js/send-sheet.js', '/js/rsvp.js', '/js/checklist.js', '/js/vendors.js',
-  '/js/budget.js', '/js/seating.js', '/js/supabase.js', '/js/autocomplete.js',
+  '/js/budget.js', '/js/seating.js', '/js/supabase.js', '/js/subscription.js', '/js/autocomplete.js',
   '/js/floorplan.js', '/js/inspiration.js', '/js/visionboard.js',
   '/js/wishingwell.js', '/js/website.js', '/js/invitations.js', '/js/events.js',
   '/js/settings.js', '/js/import.js', '/js/attachments.js', '/js/export.js',

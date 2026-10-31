@@ -70,6 +70,10 @@ window.addEventListener('resize',(function(){
 // from the dashboard onward.
 try{ if(_autoCheckPassedInstallments()) saveToStorage(); }catch(e){}
 
+// Load subscription tier state and detect checkout return
+if(typeof _uvLoadSubscription==='function') _uvLoadSubscription();
+if(typeof _uvCheckReturn==='function') _uvCheckReturn();
+
 /* ══════════════════════════════════════════════════════════════════════════
    STAGE 5 — PUBLIC PAGES (RSVP form + Vendor portal)
    These functions render a full-page experience that replaces the normal
@@ -433,7 +437,7 @@ async function _showRsvpForm(coupleId,mode){
       body{background:var(--pub-page,#F5F0E8);min-height:100vh;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
       :root{
         --rw-hdr:var(--pub-surface,#FAF7F2);--rw-hdr-ink:var(--pub-ink,#2E2418);--rw-hdr-muted:var(--pub-text,#7A6E5E);--rw-hdr-rule:var(--pub-border,#C8BFB0);
-        --rw-step-done:#9B6F42;--rw-step-active-bg:#9B6F42;--rw-step-active-fg:#fff;
+        --rw-step-done:var(--rw-accent,#9B6F42);--rw-step-active-bg:var(--rw-accent,#9B6F42);--rw-step-active-fg:var(--rw-btn-fg,#fff);
         --rw-bg:var(--pub-page,#F5F0E8);--rw-card:var(--pub-surface,#FAF7F2);
         --rw-ink:var(--pub-ink,#2E2418);--rw-muted:var(--pub-text,#7A6E5E);
         --rw-border:var(--pub-border,#C8BFB0);--rw-accent:var(--pub-accent,#9B6F42);

@@ -148,6 +148,7 @@ function _attachTypeCards(triggerFn){
 }
 
 function openBudgetAttachments(bid){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('budgetDocs')) return;
   const b = STATE.budget.items.find(x=>x.id===bid); if(!b) return;
   if(!b.attachments) b.attachments = [];
   _attachCtx = { bid, sid:null };
@@ -155,6 +156,7 @@ function openBudgetAttachments(bid){
 }
 
 function openSubAttachments(bid, sid){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('budgetDocs')) return;
   const b = STATE.budget.items.find(x=>x.id===bid); if(!b) return;
   const s = (b.subItems||[]).find(x=>x.id===sid); if(!s) return;
   if(!s.attachments) s.attachments = [];

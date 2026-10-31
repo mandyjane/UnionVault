@@ -1704,6 +1704,7 @@ function _rsvpColOrder(){
   return ord;
 }
 function _rsvpSetCol(key,on){
+  if(on && (key==='dietary'||key==='meal') && _sbSession && typeof _uvRequirePaid==='function' && !_uvIsPaid()){ _uvRequirePaid(key==='dietary'?'dietary':'mealChoices'); return; }
   if(!STATE.settings.rsvpCols) STATE.settings.rsvpCols={};
   STATE.settings.rsvpCols[key]=!!on;
   saveToStorage();
@@ -1915,6 +1916,7 @@ function _mealSetupHtml(){
 }
 function _rsvpRerenderMealCard(){const el=document.getElementById('rsvp-meal-card');if(el)el.innerHTML=_mealSetupHtml();}
 function _mealSetOn(on){
+  if(on && _sbSession && typeof _uvRequirePaid==='function' && !_uvIsPaid()){ _uvRequirePaid('mealChoices'); return; }
   if(!STATE.settings) STATE.settings={};
   STATE.settings.mealChoiceOn=!!on;
   // Turning it ON with no options yet: seed the obvious three rather than an empty list
@@ -1938,7 +1940,7 @@ function _mealDelOpt(i){ const a=_mealOptsArr(); if(i<0||i>=a.length) return; a.
 function _childMealOptsArr(){ if(!STATE.settings) STATE.settings={}; if(!Array.isArray(STATE.settings.childrenMealOptions)) STATE.settings.childrenMealOptions=[]; return STATE.settings.childrenMealOptions; }
 function _childMealOpts(){ return _childMealOptsArr().filter(x=>String(x||'').trim()); }
 function _childMealOn(){ return !!(STATE.settings&&STATE.settings.mealChoiceOn)&&STATE.settings.childrenMealOn!==false&&_childMealOpts().length>0; }
-function _childMealSetOn(on){ if(!STATE.settings) STATE.settings={}; STATE.settings.childrenMealOn=!!on; if(on&&!_childMealOpts().length) STATE.settings.childrenMealOptions=["Children's meal"]; saveToStorage(); rsvpRerenderList(); _rsvpRerenderMealCard(); }
+function _childMealSetOn(on){ if(on && _sbSession && typeof _uvRequirePaid==='function' && !_uvIsPaid()){ _uvRequirePaid('childrenMeal'); return; } if(!STATE.settings) STATE.settings={}; STATE.settings.childrenMealOn=!!on; if(on&&!_childMealOpts().length) STATE.settings.childrenMealOptions=["Children's meal"]; saveToStorage(); rsvpRerenderList(); _rsvpRerenderMealCard(); }
 function _childMealSetOpt(i,v){ const a=_childMealOptsArr(); if(i<0||i>=a.length) return; a[i]=String(v||'').trim(); saveToStorage(); rsvpRerenderList(); }
 function _childMealAddOpt(){ _childMealOptsArr().push(''); saveToStorage(); rsvpRerenderList(); _rsvpRerenderMealCard(); }
 function _childMealDelOpt(i){ const a=_childMealOptsArr(); if(i<0||i>=a.length) return; a.splice(i,1); saveToStorage(); rsvpRerenderList(); _rsvpRerenderMealCard(); }

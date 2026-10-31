@@ -276,6 +276,11 @@ footer {
 }
 .terms-body p + p { margin-top: 10px; }
 .terms-body strong { font-weight: 500; color: var(--ink); }
+.terms-part { margin-top: 20px; font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--muted); border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px; }
+.terms-section { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+.terms-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; margin: 0; }
+.terms-list li { padding-left: 16px; position: relative; }
+.terms-list li::before { content: '\2022'; position: absolute; left: 0; }
 
 /* ── Bypass banner ── */
 .bypass-banner {
@@ -360,39 +365,88 @@ footer {
       <p>Welcome to Union Vault. This website and application (the &ldquo;Service&rdquo;) are owned and operated by <strong>NthQuay Pty Ltd (ACN: 703 678 586)</strong> trading as Union Vault (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;).</p>
       <p>By creating an account, accessing, or using Union Vault, you (&ldquo;User&rdquo;, &ldquo;you&rdquo;, or &ldquo;your&rdquo;) agree to be bound by these Terms of Service and Privacy Policy. If you do not agree to these terms, you must not use the Service.</p>
 
-      <p style="margin-top:20px;font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--muted);">Part A: Privacy Policy &amp; Data Handling</p>
+      <div class="terms-part">Part A: Privacy Policy &amp; Data Handling</div>
 
-      <p><strong>1. What We Collect</strong><br>
-      Account information (email, hashed password), user-generated planning data (guest lists, vendors, budgets, schedules, notes, uploaded files), and basic non-identifying usage information.</p>
+      <div class="terms-section">1. What We Collect</div>
+      <p style="margin-bottom:8px">To provide the Service, we collect and store:</p>
+      <ul class="terms-list">
+        <li><strong>Account Information:</strong> Your email address and a securely hashed password.</li>
+        <li><strong>User-Generated Data:</strong> Planning details you input, including guest lists, vendor communications, budgets, schedules, timelines, notes, and uploaded files.</li>
+        <li><strong>Usage Information:</strong> Basic, non-identifying technical data to monitor app performance and improve your user experience.</li>
+      </ul>
 
-      <p><strong>2. How We Use and Store Your Data</strong><br>
-      Internal use only &mdash; we never sell, share, rent, or lease your personal information to third parties. Data is securely hosted via Supabase in an Australian-region cloud environment.</p>
+      <div class="terms-section">2. How We Use and Store Your Data</div>
+      <ul class="terms-list">
+        <li><strong>Internal Use Only:</strong> Your personal data is used solely to operate, maintain, and provide the features of Union Vault to you.</li>
+        <li><strong>No Third-Party Sharing:</strong> We never sell, share, rent, or lease your personal information or planning data to third parties.</li>
+        <li><strong>Secure Infrastructure:</strong> Data is securely processed and hosted via Supabase in an Australian-region cloud database environment.</li>
+      </ul>
 
-      <p><strong>3. Communications</strong><br>
-      Emails are triggered strictly upon your explicit instruction (appointment confirmations, guest invitations). We will not send unsolicited marketing material.</p>
+      <div class="terms-section">3. Communications From Us</div>
+      <ul class="terms-list">
+        <li><strong>User-Triggered Emails:</strong> Union Vault triggers emails strictly upon your explicit instruction (e.g., sending appointment confirmations to your vendors or distributing digital invitations/save-the-dates to your guests).</li>
+        <li><strong>System Emails:</strong> We will not send you unsolicited marketing material. We reserve the right to send mandatory transactional or administrative updates (such as password resets or critical service notices).</li>
+      </ul>
 
-      <p><strong>4. Your Rights</strong><br>
-      You retain full ownership of your data. View, modify, export, or permanently delete your planning information at any time. Contact <a href="mailto:support@unionvault.app" style="color:var(--gold);text-decoration:none">support@unionvault.app</a> for assistance.</p>
+      <div class="terms-section">4. Your Rights and Data Deletion</div>
+      <ul class="terms-list">
+        <li><strong>Full Control:</strong> You retain full ownership of your data. You may view, modify, export, or permanently delete your planning information at any time via your account settings dashboard (Settings &rarr; Account).</li>
+        <li><strong>Permanent Removal:</strong> Deleting your user account permanently and irreversibly purges your data from our live databases. For direct data requests or technical assistance, contact <a href="mailto:support@unionvault.app" style="color:var(--gold);text-decoration:none">support@unionvault.app</a>.</li>
+      </ul>
 
-      <p style="margin-top:20px;font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--muted);">Part B: Legal &amp; Commercial Terms</p>
+      <div class="terms-section">5. Security Limitations</div>
+      <ul class="terms-list">
+        <li><strong>Best Practice Protocols:</strong> All network transmissions are strictly encrypted in transit using Hypertext Transfer Protocol Secure (HTTPS). Account passwords are robustly hashed and never saved in plain text.</li>
+        <li><strong>Disclaimer:</strong> While we employ commercial industry standards to safeguard your data, no online transmission or cloud architecture is completely impenetrable. We cannot guarantee absolute security.</li>
+      </ul>
 
-      <p><strong>5. Fees &amp; Payments</strong><br>
-      Fees in AUD, processed via Stripe. Recurring subscriptions auto-renew unless cancelled. Refunds subject to Australian Consumer Law.</p>
+      <div class="terms-part">Part B: Legal &amp; Commercial Terms</div>
 
-      <p><strong>6. Beta Phase</strong><br>
-      Union Vault is in closed beta. Access may be modified at any time. The platform is provided &ldquo;as-is&rdquo;.</p>
+      <div class="terms-section">6. Fees, Payments, and Subscriptions</div>
+      <p style="margin-bottom:8px">We may introduce paid tiers, premium features, or subscription-based models (&ldquo;Paid Services&rdquo;) across the platform. By utilizing these features, you agree to the following terms:</p>
+      <ul class="terms-list">
+        <li><strong>Pricing Currency:</strong> All commercial fees are listed in Australian Dollars (AUD). Prices do not attract GST unless our business status changes and registration is legally required, at which point valid tax invoices will be issued. We reserve the right to modify pricing structures upon giving active subscribers reasonable notice.</li>
+        <li><strong>Payment Gateway:</strong> All billing operations are securely processed externally via Stripe. Union Vault does not store or process complete credit card details or bank account credentials on our infrastructure.</li>
+        <li><strong>Auto-Renewal Conditions:</strong> Recurring premium subscription tiers automatically renew at the close of each billing cycle (monthly or annually) unless you actively terminate the plan through your dashboard account settings prior to the renewal date.</li>
+        <li><strong>Refund Framework:</strong> To the maximum extent permitted by law, fees paid for the Service are non-refundable. Nothing within these terms restricts, excludes, or limits your inherent consumer protections or statutory guarantees under the Australian Consumer Law (ACL), including your explicit right to remedies regarding a major operational service failure.</li>
+      </ul>
 
-      <p><strong>7. Eligibility</strong><br>
-      You must be at least 18 years of age to use Union Vault.</p>
+      <div class="terms-section">7. Beta Testing Phase &amp; User Feedback</div>
+      <p style="margin-bottom:8px">Union Vault is currently deployed in a closed beta testing phase for evaluation purposes. Access is granted at our sole discretion and may be modified or revoked at any time without notice or penalty.</p>
+      <ul class="terms-list">
+        <li><strong>Voluntary Feedback:</strong> Any feature requests, technical bug reports, optimization reviews, or suggestions you submit (&ldquo;Feedback&rdquo;) are entirely informal.</li>
+        <li><strong>Assignment of Rights:</strong> You hereby assign all global right, title, and intellectual property interest in such Feedback to NthQuay Pty Ltd. We retain the unrestricted right to implement, modify, publish, or utilize your Feedback without any financial compensation, formal attribution, or prospective obligation to you.</li>
+        <li><strong>&ldquo;As-Is&rdquo; Deployment:</strong> The beta platform is delivered strictly on an &ldquo;as-is&rdquo; and &ldquo;as-available&rdquo; basis without any express or implied warranties.</li>
+      </ul>
 
-      <p><strong>8. Limitation of Liability</strong><br>
-      Maximum liability limited to fees paid in the preceding three months. Full consumer protections under the ACL are preserved.</p>
+      <div class="terms-section">8. Eligibility and Age Restrictions</div>
+      <ul class="terms-list">
+        <li><strong>Minimum Age:</strong> You must be at least 18 years of age to register an account and use Union Vault.</li>
+        <li><strong>Account Termination:</strong> We do not knowingly gather information from individuals under the age of 18. If we discover an account belongs to a minor, we will immediately close the profile and purge the associated data.</li>
+      </ul>
 
-      <p><strong>9. Intellectual Property</strong><br>
-      All source code, interfaces, and brand assets are the exclusive property of NthQuay Pty Ltd, protected under the Copyright Act 1968 (Cth).</p>
+      <div class="terms-section">9. Limitation of Liability</div>
+      <ul class="terms-list">
+        <li><strong>Proportionate Cap:</strong> To the maximum extent permitted under applicable law, NthQuay Pty Ltd and its directors, officers, or representatives shall not be held liable for any indirect, special, incidental, consequential, exemplary, or punitive damages. This includes, but is not limited to, losses involving corrupted data, system downtime, failed communication delivery to vendors/guests, or general wedding planning disruptions.</li>
+        <li><strong>Maximum Liability:</strong> Where liability cannot be fully excluded by law, our absolute maximum financial liability to you is limited strictly to the total amount paid by you to use the Service during the three (3) months directly preceding the claim (which stands at nil during any free beta testing periods).</li>
+      </ul>
 
-      <p><strong>10. Governing Law</strong><br>
-      Governed by the laws of Queensland, Australia.</p>
+      <div class="terms-section">10. Intellectual Property &amp; Copyright Notice</div>
+      <ul class="terms-list">
+        <li><strong>Ownership:</strong> All source code, platform databases, visual user interfaces, digital graphics, brand layouts, textual content, trademarks, and design structures within Union Vault remain the exclusive intellectual property of NthQuay Pty Ltd and are fully protected under the <em>Copyright Act 1968</em> (Cth) and international treaties.</li>
+        <li><strong>Strict Prohibitions:</strong> You may not copy, reproduce, mirror, scrape, distribute, modify, adapt, decompile, or reverse-engineer any component of the Service without the express, prior written authorisation of NthQuay Pty Ltd. Unauthorised use may result in immediate account termination and civil or criminal legal remedies.</li>
+      </ul>
+
+      <div class="terms-section">11. Governing Law &amp; Jurisdiction</div>
+      <ul class="terms-list">
+        <li><strong>Queensland Law:</strong> These terms are governed, construed, and enforced in accordance with the laws of Queensland, Australia.</li>
+        <li><strong>Dispute Resolution:</strong> You irrevocably submit to the non-exclusive jurisdiction of the courts of Queensland to resolve any legal claims or contract disputes arising out of your relationship with Union Vault.</li>
+      </ul>
+
+      <div class="terms-section">12. Modifications to Terms</div>
+      <ul class="terms-list">
+        <li><strong>Right to Update:</strong> We reserve the right to revise this document at any time. If a material change is made, we will notify you via the primary email address linked to your profile. Continued use of the platform following the publication of changes constitutes your binding acceptance of the updated terms.</li>
+      </ul>
 
       <p style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);color:var(--muted);">
         Questions? Email <a href="mailto:support@unionvault.app" style="color:var(--gold);text-decoration:none">support@unionvault.app</a> &mdash; we'll respond within two business days.
@@ -473,7 +527,7 @@ footer {
 
   // ── Bypass mechanism ──
   // Add ?bypass=uvadmin to the URL to reveal the bypass banner.
-  // Clicking "Enter app" redirects to app.html (the real app during maintenance).
+  // Clicking "Enter app" redirects to the main app (index.html).
   var BYPASS_KEY = 'uv_bypass';
   var params = new URLSearchParams(location.search);
 
@@ -489,7 +543,7 @@ footer {
   }
 
   document.getElementById('bypass-go').addEventListener('click', function(){
-    window.location.href = '/app.html';
+    window.location.href = '/';
   });
 })();
 </script>

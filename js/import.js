@@ -262,6 +262,8 @@ function finaliseGuestImport(skipped=0){
   let added=0,updated=0;
   _newlyImportedIds=new Set();
   const addedIds=[];
+  const _freeGuestCap = _sbSession && typeof _uvIsPaid==='function' && !_uvIsPaid();
+  let _freeSlots = _freeGuestCap ? Math.max(0, 50 - (STATE.guests||[]).length) : Infinity;
   _pendingImportGuests.forEach(g=>{
     if(g.action==='skip'||g.skip){skipped++;return;}
     if(g.action==='update'&&g.existingId){
@@ -276,11 +278,12 @@ function finaliseGuestImport(skipped=0){
       }
       return;
     }
+    if(_freeGuestCap && _freeSlots <= 0){ skipped++; return; }
     const{id,name,prefix,rsvp,phone,email,address,handle,handlePlatform,relationship,dietary,tags,allergens,allergyNote,dietOther}=g;
     STATE.guests.push({id,name,prefix:prefix||'',rsvp,dietary,tags,allergens:allergens||[],allergyNote:allergyNote||'',dietOther:dietOther||'',phone,email,address,handle:handle||'',handlePlatform:(handle||'').trim()?(handlePlatform||'instagram'):undefined,relationship:relationship||'Guest',coupleId:null,plusOneId:null,plusOne:false,isMain:true,notes:'',listType:'A'});
     { const _ng=STATE.guests[STATE.guests.length-1]; const _ab=_ageBandFromTags(tags); if(_ab) _setGuestAgeBand(_ng,_ab); }
     _newlyImportedIds.add(id); addedIds.push(id);
-    added++;
+    added++; if(_freeGuestCap) _freeSlots--;
   });
   _pendingImportGuests=[];
   saveToStorage();closeModalDirect();navigate('guests');

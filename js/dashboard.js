@@ -765,7 +765,12 @@ function renderDashboard(c, actions){
 
   const visionHtml = '';
 
-  c.innerHTML = heroHtml + editBarHtml + `<div id="dash-widgets">` + widgetsHtml + `</div>` + visionHtml;
+  let _subBanner='';
+  if(_sbSession && typeof _uvTier!=='undefined'){
+    if(_uvTier==='trial' && _uvTrialDaysLeft>0) _subBanner=`<div class="uv-trial-banner"><span><strong>${_uvTrialDaysLeft} day${_uvTrialDaysLeft===1?'':'s'} left</strong> in your free trial</span><button onclick="_uvGoCheckout()">Upgrade now</button></div>`;
+    else if(_uvTier==='free') _subBanner=`<div class="uv-upgrade-card-dash"><div class="uv-dash-title">Unlock Full Access</div><div class="uv-dash-sub">Get unlimited guests, seating plans, print &amp; export, and more</div><button onclick="_uvGoCheckout()">Upgrade now</button></div>`;
+  }
+  c.innerHTML = _subBanner + heroHtml + editBarHtml + `<div id="dash-widgets">` + widgetsHtml + `</div>` + visionHtml;
   setTimeout(()=>{ requestAnimationFrame(_fitDashNextUp); _ensureDashNextUpObserver(); }, 0);
 }
 

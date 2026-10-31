@@ -41,9 +41,24 @@ serve(async (req) => {
 
   const name = String(b.fromName ?? '').replace(/[<>"\r\n]/g, '').trim().slice(0, 80) || 'UnionVault'
   const replyTo = EMAIL_RE.test(String(b.replyTo ?? '')) ? String(b.replyTo) : user.email
+
+  // Look up sender's tier for branding decision
+  const SB_SERVICE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  let senderTier = 'free'
+  if (SB_SERVICE) {
+    try {
+      const pr = await fetch(`${SB_URL}/rest/v1/user_profiles?user_id=eq.${user.id}&select=tier`, {
+        headers: { apikey: SB_SERVICE, Authorization: `Bearer ${SB_SERVICE}` },
+      })
+      const rows = await pr.json()
+      if (rows?.[0]?.tier) senderTier = rows[0].tier
+    } catch (_) { /* default to free — branding shown */ }
+  }
+  const showBranding = senderTier === 'free'
+
   const payload: Record<string, unknown> = { from: `${name} <${FROM_ADDR}>`, to, subject, text }
   if (replyTo) payload.reply_to = replyTo
-  payload.html = brandedHtml({ kicker: String(b.kicker ?? '').slice(0, 120), title: String(b.title ?? '').slice(0, 200), text })
+  payload.html = brandedHtml({ kicker: String(b.kicker ?? '').slice(0, 120), title: String(b.title ?? '').slice(0, 200), text, showBranding })
 
   if (b.attachment?.path) {
     const allowed = `${SB_URL}/storage/v1/object/public/photos/${user.id}/`
@@ -74,9 +89,19 @@ const escH = (s: string) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g,
 function linkify(escaped: string): string {
   return escaped.replace(/\bhttps?:\/\/[^\s<]+[^\s<.,;:!?)'"]/g, (u) => `<a href="${u}" style="color:#8a6a2c">${u}</a>`)
 }
-function brandedHtml(opts: { kicker?: string; title?: string; text: string }): string {
+function brandedHtml(opts: { kicker?: string; title?: string; text: string; showBranding?: boolean }): string {
   const paras = String(opts.text ?? '').trim().split(/\n{2,}/)
     .map((p) => `<p style="margin:0 0 14px;font-size:15px;line-height:1.6">${linkify(escH(p)).replace(/\n/g, '<br>')}</p>`).join('')
+
+  const brandingFooter = opts.showBranding
+    ? `<tr><td style="padding:0 26px 6px"><hr style="border:none;border-top:1px solid #E0D8CF;margin:0 0 14px"></td></tr>
+<tr><td align="center" style="padding:0 26px 10px">
+<a href="https://unionvault.app" style="text-decoration:none">
+<picture><source srcset="${LOGO_BASE}/email-logo-white.png" media="(prefers-color-scheme: dark)"><img src="${LOGO_BASE}/email-logo-black.png" width="90" alt="Union Vault" style="display:block;width:90px;height:auto;border:0;margin:0 auto"></picture>
+</a></td></tr>
+<tr><td align="center" class="uv-muted" style="padding:0 26px 22px;font-size:11px;color:#6E6259">Planned with <a href="https://unionvault.app" style="color:#8a6a2c;text-decoration:none">Union Vault</a></td></tr>`
+    : ''
+
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
 <style>@media (prefers-color-scheme: dark){.uv-bg{background:#111114!important}.uv-card{background:#1A1A1F!important;color:#EDE6DA!important}.uv-band{background:#111114!important}.uv-muted{color:#A79E92!important}.uv-kicker{color:#E3C878!important}}</style></head>
@@ -91,6 +116,6 @@ ${opts.kicker ? `<div class="uv-kicker" style="font-size:11px;font-weight:700;le
 ${opts.title ? `<div style="font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.2;margin-bottom:16px">${escH(opts.title)}</div>` : ''}
 ${paras}
 </td></tr>
-<tr><td class="uv-muted" style="padding:0 26px 22px;font-size:11.5px;color:#6E6259">Sent with <a href="https://unionvault.app" style="color:#8a6a2c">UnionVault</a></td></tr>
+${brandingFooter}
 </table></td></tr></table></body></html>`
 }

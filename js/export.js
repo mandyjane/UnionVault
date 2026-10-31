@@ -307,6 +307,7 @@ function _exportSlugFor(key){
 
 // Print a document via a hidden same-page iframe (popup-free, sandbox-safe).
 function _exportPrint(key){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('printExport')) return;
   try{
     const doc=_exportBuildDoc(key, false);
     const old=document.getElementById('export-print-frame'); if(old) old.remove();
@@ -322,6 +323,7 @@ function _exportPrint(key){
 }
 // Download a self-printing HTML file (opens → auto-launches print / Save-as-PDF).
 function _exportDownload(key){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('printExport')) return;
   const doc=_exportBuildDoc(key, true);
   const dstr=new Date().toISOString().slice(0,10);
   const blob=new Blob([doc],{type:'text/html'});
@@ -334,6 +336,7 @@ function _exportDownload(key){
 
 // The hub: a list of the four documents. Picking one opens a print preview.
 function openExportHub(){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('printExport')) return;
   const items=Object.keys(_EXPORT_DOCS).map(key=>{
     const d=_EXPORT_DOCS[key];
     return `<div onclick="openExportPreview('${key}')" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border:.5px solid var(--border);border-radius:11px;margin-bottom:8px;cursor:pointer;background:var(--surface);transition:border-color .12s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">

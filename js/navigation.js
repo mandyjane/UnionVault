@@ -4,6 +4,10 @@ let _currentPage='dashboard';
 function navigate(page){
   // Invitations folded into the RSVP & Invites page.
   if(page==='invitation') page='rsvp-mgr';
+  // Paid-page gate: signed-in free users cannot access premium pages
+  if(_sbSession && typeof _uvIsPaid==='function' && !_uvIsPaid() && typeof _UV_PAID_PAGES!=='undefined' && _UV_PAID_PAGES.has(page)){
+    _uvShowUpgradeModal(page); return;
+  }
   // If we're re-rendering the SAME page (e.g. a budget toggle/edit calls navigate('budget')
   // to refresh in place), remember the scroll position so the view doesn't jump to the top.
   // A genuine page change scrolls to top as before. An explicit scrollIntoView that runs

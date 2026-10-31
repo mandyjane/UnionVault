@@ -2097,6 +2097,7 @@ function updateBudgetBalanceDate(id,val){
   const b=STATE.budget.items.find(x=>x.id===id); if(b){b.balanceDueDate=val; saveToStorage(); navigate('budget');}
 }
 function toggleSubPerHead(pid,sid){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('perHead')) return;
   const b=STATE.budget.items.find(x=>x.id===pid);
   const s=b?.subItems?.find(x=>x.id===sid);
   if(!s)return;
@@ -2844,6 +2845,7 @@ function _subItemBalance(s){
 }
 
 function toggleSubPerItem(pid,sid){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('perItem')) return;
   const b=STATE.budget.items.find(x=>x.id===pid);
   const s=b?.subItems?.find(x=>x.id===sid);
   if(!s)return;
@@ -3395,6 +3397,7 @@ function confirmDeleteBudgetItem(id){
   }, 'budget');
 }
 function addSubItem(pid){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('budgetSubItems')) return;
   _bePendingTaskLinks=[]; _beEditTarget=null; _beForcedTaskCategory='';
   _beSubParent=pid;
   const _bp=STATE.budget.items.find(x=>x.id===pid);

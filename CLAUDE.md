@@ -15,13 +15,13 @@ Read the latest `docs/sessions/HANDOFF_SESSION*.md` and `docs/CLAUDE_CODE_CONTEX
 
 ## Conventions (short form)
 
-- No build step, no bundler. `app.html` is the shell; CSS in `css/`, JS in `js/`, loaded via `<script>` tags. Branch `main` only; `git push -u origin main`.
+- No build step, no bundler. `index.html` is the app shell; CSS in `css/`, JS in `js/`, loaded via `<script>` tags. Branch `main` only; `git push -u origin main`.
 - Bump `APP_BUILD` in `js/autocomplete.js` and `CACHE` in `sw.js` together on every app deploy. Add new JS/CSS files to the `SHELL` array in `sw.js`.
 - Visual changes: light + dark preview first, wait for Accept / Reject / Adjust.
 
 ## Repo layout
 
-- Root: only what the live site / Supabase needs (`index.html`, `app.html`, `maintenance.html`, `sw.js`, `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, `CNAME`, `.nojekyll`, `og-image.png`, `assets/`, `css/`, `js/`, `icons/`, `logos/`, `supabase/`). Keep it that way.
+- Root: only what the live site / Supabase needs (`index.html`, `maintenance.html` (offline template for future use), `sw.js`, `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, `CNAME`, `.nojekyll`, `og-image.png`, `assets/`, `css/`, `js/`, `icons/`, `logos/`, `supabase/`). Keep it that way.
 - `docs/` — reference docs (`CLAUDE_CODE_CONTEXT.md`, changelog, decisions).
 - `docs/sessions/` — per-session handoffs and new-session prompts. New handoffs go here, not at the root.
 - `scripts/` — helper scripts.

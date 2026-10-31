@@ -65,6 +65,19 @@ function renderSettings(c, actions){
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Account &amp; Cloud</div>
       <div id="cloud-account-panel">${_cloudAccountHtml()}</div>
     </div>
+    ${_sbSession?`<div class="settings-sect" data-sect="subscription billing plan tier upgrade downgrade cancel payment stripe">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Subscription</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:13.5px;font-weight:500">${typeof _uvTier!=='undefined'&&_uvTier==='full'?'Full Access':_uvTier==='trial'?'Free Trial'+(typeof _uvTrialDaysLeft!=='undefined'&&_uvTrialDaysLeft>0?' — '+_uvTrialDaysLeft+' day'+(_uvTrialDaysLeft===1?'':'s')+' left':''):'Free Tier'}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">${typeof _uvTier!=='undefined'&&_uvTier==='full'?'You have access to all features.':_uvTier==='trial'?'All features are unlocked during your trial.':'Upgrade for unlimited guests, seating plans, print &amp; more.'}</div>
+          </div>
+          ${typeof _uvTier!=='undefined'&&(_uvTier==='full'||(_uvTier==='trial'&&typeof _uvSubDetails!=='undefined'&&_uvSubDetails&&_uvSubDetails.subStatus))?`<button class="btn btn-sm btn-outline" onclick="_uvOpenPortal()">Manage billing</button>`:`<button class="btn btn-sm btn-primary" onclick="_uvGoCheckout()">Upgrade to Full Access</button>`}
+        </div>
+        ${typeof _uvSubDetails!=='undefined'&&_uvSubDetails&&_uvSubDetails.cancelAtPeriodEnd?`<div style="font-size:12.5px;color:var(--red);padding:10px 14px;background:rgba(192,57,43,.06);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><span>Your subscription will end at the current billing period.</span><button class="btn btn-sm btn-outline" onclick="_uvReactivateSub().then(function(){navigate('settings')})">Reactivate</button></div>`:''}
+      </div>
+    </div>`:''}
     <div class="settings-sect" data-sect="appearance dark mode vision board dashboard navigation sidebar hamburger icon theme">
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Appearance</div>
       <div class="dark-toggle-row" style="margin-bottom:16px">

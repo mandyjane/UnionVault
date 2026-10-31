@@ -46,7 +46,9 @@ function _fillTemplate(tpl, grp){
     '{rsvp_by}':_longDate((STATE.settings||{}).rsvpBy)|| 'your earliest convenience',
     '{link}':_rsvpLink()
   };
-  return (tpl||'').replace(/\{guest\}|\{names\}|\{date\}|\{rsvp_by\}|\{link\}/g, m=>map[m]!=null?map[m]:m);
+  let msg = (tpl||'').replace(/\{guest\}|\{names\}|\{date\}|\{rsvp_by\}|\{link\}/g, m=>map[m]!=null?map[m]:m);
+  if(_sbSession && typeof _uvIsPaid==='function' && !_uvIsPaid()) msg += '\n\nSent via unionvault.app';
+  return msg;
 }
 // Primary contact of a group for a channel (first member with the needed field).
 function _groupContact(grp, field){
@@ -1591,6 +1593,7 @@ function _gfSetMoreBtn(btn, open){
 }
 
 function saveGuest(type){
+  if(_sbSession && typeof _uvGuestLimitReached==='function' && _uvGuestLimitReached()){ _uvRequirePaid('unlimitedGuests'); return; }
   const tags=(document.getElementById('gf-tags')?.value||'').split(',').map(t=>t.trim()).filter(Boolean);
   const addr=document.getElementById('gf-addr')?.value.trim()||'';
   const listType=document.getElementById('gf-listtype')?.value||'A';
@@ -2054,6 +2057,7 @@ function onLinkToChange(val){
    listType from the host, gets a '+1' tag, relationship 'Plus One',
    coupleId -> host, and the host's plusOneId points back. */
 function _createPlusOneFor(hostId, rawName){
+  if(_sbSession && typeof _uvGuestLimitReached==='function' && _uvGuestLimitReached()){ _uvRequirePaid('unlimitedGuests'); return null; }
   const g = STATE.guests.find(x=>x.id===hostId);
   if(!g) return null;
   const plusName = (rawName||'').trim() || ('+1 ('+g.name+')');

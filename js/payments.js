@@ -88,6 +88,7 @@ function _payEvenSplit(){
 }
 
 function openPaymentsEditor(pid, sid, prefillDeposit, opts){
+  if(_sbSession && typeof _uvRequirePaid==='function' && !_uvRequirePaid('budgetPayments')) return;
   _adoptPopupBack();
   const b=STATE.budget.items.find(x=>x.id===pid);
   const s=b?.subItems?.find(x=>x.id===sid);
